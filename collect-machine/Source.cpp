@@ -34,6 +34,9 @@ int main(int argc, char* argv[]) {
 	bool left2 = false;
 	bool right2 = false;
 
+	// bool to restart the game
+	bool space = false; 
+
 	//score 1
 	unsigned short count1 = 0;
 
@@ -235,7 +238,11 @@ int main(int argc, char* argv[]) {
 					right2 = true;
 				}
 
-
+				//Restart
+				if (event.key.keysym.sym == SDLK_SPACE)
+				{
+					space = true;
+				}
 
 			}
 
@@ -258,6 +265,7 @@ int main(int argc, char* argv[]) {
 				{
 					right = false;
 				}
+				
 				//player2
 
 				if (event.key.keysym.sym == SDLK_w)
@@ -275,6 +283,12 @@ int main(int argc, char* argv[]) {
 				if (event.key.keysym.sym == SDLK_d)
 				{
 					right2 = false;
+				}
+				
+				//Restart
+				if (event.key.keysym.sym == SDLK_SPACE)
+				{
+					space = false;
 				}
 
 			}
@@ -313,6 +327,11 @@ int main(int argc, char* argv[]) {
 
 		if (right2 == true) {
 			rect2.x +=1;
+		}
+		//Restart
+		if (space == true) {
+			count1 = 0; 
+			count2 = 0; 
 		}
 		
 		if (box.y <= 800) {
@@ -365,14 +384,6 @@ int main(int argc, char* argv[]) {
 			rect2.y = 800 - rect2.h;
 		}
 
-		//Screen winner
-		if (count1 == 6) {
-			SDL_RenderCopy(renderer, win1, NULL, &winner);
-		}
-		if (count2 == 6) {
-			SDL_RenderCopy(renderer, win2, NULL, &winner);
-		}
-
 		//in game
 		SDL_RenderCopy(renderer, backround, NULL, NULL);
 		SDL_RenderCopy(renderer, ship, NULL, &rect);
@@ -395,8 +406,10 @@ int main(int argc, char* argv[]) {
 		if (count1 == 5) {
 			SDL_RenderCopy(renderer, img5, NULL, &score1);
 		}
+		
 
 		//score2
+	
 		if (count2 == 1) {
 			SDL_RenderCopy(renderer, img1, NULL, &score2);
 		}
@@ -411,6 +424,12 @@ int main(int argc, char* argv[]) {
 		}
 		if (count2 == 5) {
 			SDL_RenderCopy(renderer, img5, NULL, &score2);
+		}
+		if (count1 == 6) {
+			SDL_RenderCopy(renderer, win1, NULL, NULL);
+		}
+		if (count2 == 6) {
+			SDL_RenderCopy(renderer, win2, NULL, NULL);
 		}
 
 
