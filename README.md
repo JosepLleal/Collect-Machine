@@ -1,3 +1,3 @@
-# Collect Machine
+# Hommer vs Wiggum
 
-Future best game 2018
+Future best game of 2018
