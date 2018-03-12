@@ -99,7 +99,14 @@ int main(int argc, char* argv[]) {
 	box.x = rand() % (1000 - box.h);
 	box.y = 0;
 	
-	
+
+	//score 1
+	unsigned short count1 = 0;
+
+	//score 2
+	unsigned short count2 = 0;
+
+
 	//Starting loop
 	while (isRunning) {
 
@@ -239,6 +246,17 @@ int main(int argc, char* argv[]) {
 			box.x = rand() % (1000 - box.h);
 		}
 		
+		if (box.x >= rect.x && box.x < (rect.x + rect.w) && box.y > rect.y && box.y < (rect.y + rect.h)) {
+			box.y = 0;
+			box.x = rand() % (1000 - box.h);
+			count1++;
+		}
+
+		if (box.x >= rect2.x && box.x < (rect2.x + rect2.w) && box.y > rect2.y && box.y < (rect2.y + rect2.h)) {
+			box.y = 0;
+			box.x = rand() % (1000 - box.h);
+			count2++;
+		}
 		
 		//limits of movement
 		if (rect.x < 0) {
