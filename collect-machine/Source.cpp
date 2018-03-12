@@ -2,6 +2,8 @@
 #include "SDL/include/SDL.h"
 #include "SDL_Image/include/SDL_image.h"
 #include "SDL_Mixer/include/SDL_mixer.h"
+#include <time.h>
+#include <string>
 
 
 #pragma comment(lib, "SDL/libx86/SDL2.lib")
@@ -10,9 +12,9 @@
 #pragma comment(lib, "SDL_Mixer/libx86/SDL2_mixer.lib")
 
 
-
 int main(int argc, char* argv[]) {
-		
+	
+	srand(time(NULL));
 	
 	SDL_Init(SDL_INIT_VIDEO);
 
@@ -90,7 +92,12 @@ int main(int argc, char* argv[]) {
 	rect2.x = 220;
 	rect2.y = 170;
 
-	
+	//creating boxes
+	SDL_Rect box;
+	box.w = 40;
+	box.h = 40;
+	box.x = rand() % (1000 - box.h);
+	box.y = 0;
 	
 	
 	//Starting loop
@@ -100,12 +107,12 @@ int main(int argc, char* argv[]) {
 			if (event.type == SDL_QUIT) {
 				isRunning = false;
 			}
-			
+
 
 			//if the key is pressed
 			else if (event.type == SDL_KEYDOWN)
 			{
-				
+
 				if (event.key.keysym.sym == SDLK_UP)
 				{
 					up = true;
@@ -142,11 +149,11 @@ int main(int argc, char* argv[]) {
 				{
 					right2 = true;
 				}
-				
-				
-				
+
+
+
 			}
-			
+
 			//if the key is released
 			else if (event.type == SDL_KEYUP)
 			{
@@ -184,26 +191,26 @@ int main(int argc, char* argv[]) {
 				{
 					right2 = false;
 				}
-				
+
 			}
 		}
 
-		
+
 
 		//if key is pressed move the spaceship
-		if (up == true){
+		if (up == true) {
 			rect.y -= 1;
 		}
 
-		if (down == true){
+		if (down == true) {
 			rect.y += 1;
 		}
 
-		if (left == true){
+		if (left == true) {
 			rect.x -= 1;
 		}
 
-		if (right == true){
+		if (right == true) {
 			rect.x += 1;
 		}
 
@@ -222,8 +229,15 @@ int main(int argc, char* argv[]) {
 		if (right2 == true) {
 			rect2.x += 1;
 		}
-	
+		
+		if (box.y <= 800) {
+		box.y++;
+		}
 
+		else if (box.y >= 800) {
+			box.y = 0;
+			box.x = rand() % (1000 - box.h);
+		}
 		
 		
 		//limits of movement
@@ -259,6 +273,7 @@ int main(int argc, char* argv[]) {
 		SDL_RenderCopy(renderer, backround, NULL, NULL);
 		SDL_RenderCopy(renderer, ship, NULL, &rect);
 		SDL_RenderCopy(renderer, ship2, NULL, &rect2);
+		SDL_RenderCopy(renderer, ship, NULL, &box);
 		
 
 		SDL_RenderPresent(renderer);
