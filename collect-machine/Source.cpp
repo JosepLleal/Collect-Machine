@@ -33,6 +33,12 @@ int main(int argc, char* argv[]) {
 	bool down2 = false;
 	bool left2 = false;
 	bool right2 = false;
+
+	//score 1
+	unsigned short count1 = 0;
+
+	//score 2
+	unsigned short count2 = 0;
 	
 
 	SDL_Surface *surface;
@@ -40,6 +46,16 @@ int main(int argc, char* argv[]) {
 	SDL_Texture *backround;
 	SDL_Texture *ship;
 	SDL_Texture *ship2;
+	SDL_Texture *fuel;
+
+	SDL_Texture *img1;
+	SDL_Texture *img2;
+	SDL_Texture *img3;
+	SDL_Texture *img4;
+	SDL_Texture *img5;
+
+	SDL_Texture *win1;
+	SDL_Texture *win2;
 	
 
 	SDL_Window *window = SDL_CreateWindow("SideScroller Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_SHOWN);
@@ -72,10 +88,58 @@ int main(int argc, char* argv[]) {
 	ship = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
+	//Fuel
+	surface = IMG_Load("fuel.png");
+	if (surface == NULL) {
+		isRunning = false;
+	}
+	fuel = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//-------Loading scores ------------
+	//1
+	surface = IMG_Load("1.png");
+	
+	img1 = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//2
+	surface = IMG_Load("2.png");
+	
+	img2 = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//3
+	surface = IMG_Load("3.png");
+	
+	img3 = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//4
+	surface = IMG_Load("4.png");
+	
+	img4 = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//5
+	surface = IMG_Load("5.png");
+	
+	img5 = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//-----loading winner page--------
+
+	surface = IMG_Load("win1.png");
+
+	win1 = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	surface = IMG_Load("win2.png");
+
+	win2 = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
 
 	
-
-	//------------------------------------------------------------------------------------------------------------------------------------
 	
 
 	//Creating square
@@ -98,13 +162,27 @@ int main(int argc, char* argv[]) {
 	box.h = 40;
 	box.x = rand() % (1000 - box.h);
 	box.y = 0;
+
+	//scores
+	SDL_Rect score1;
+	score1.w = 70;
+	score1.h = 70;
+	score1.x = 930;
+	score1.y = 730;
+
+	SDL_Rect score2;
+	score2.w = 70;
+	score2.h = 70;
+	score2.x = 0;
+	score2.y = 730;
+
+	//Final 
+	SDL_Rect winner;
+	winner.w = 1000;
+	winner.h = 800;
+	winner.x = 0;
+	winner.y = 0;
 	
-
-	//score 1
-	unsigned short count1 = 0;
-
-	//score 2
-	unsigned short count2 = 0;
 
 
 	//Starting loop
@@ -234,7 +312,7 @@ int main(int argc, char* argv[]) {
 		}
 
 		if (right2 == true) {
-			rect2.x += 1;
+			rect2.x +=1;
 		}
 		
 		if (box.y <= 800) {
@@ -287,12 +365,54 @@ int main(int argc, char* argv[]) {
 			rect2.y = 800 - rect2.h;
 		}
 
+		//Screen winner
+		if (count1 == 6) {
+			SDL_RenderCopy(renderer, win1, NULL, &winner);
+		}
+		if (count2 == 6) {
+			SDL_RenderCopy(renderer, win2, NULL, &winner);
+		}
 
+		//in game
 		SDL_RenderCopy(renderer, backround, NULL, NULL);
 		SDL_RenderCopy(renderer, ship, NULL, &rect);
 		SDL_RenderCopy(renderer, ship2, NULL, &rect2);
-		SDL_RenderCopy(renderer, ship, NULL, &box);
-		
+		SDL_RenderCopy(renderer, fuel, NULL, &box);
+
+		//Score 1
+		if (count1 == 1) {
+			SDL_RenderCopy(renderer, img1, NULL, &score1);
+		}
+		if (count1 == 2) {
+			SDL_RenderCopy(renderer, img2, NULL, &score1);
+		}
+		if (count1 == 3) {
+			SDL_RenderCopy(renderer, img3, NULL, &score1);
+		}
+		if (count1 == 4) {
+			SDL_RenderCopy(renderer, img4, NULL, &score1);
+		}
+		if (count1 == 5) {
+			SDL_RenderCopy(renderer, img5, NULL, &score1);
+		}
+
+		//score2
+		if (count2 == 1) {
+			SDL_RenderCopy(renderer, img1, NULL, &score2);
+		}
+		if (count2 == 2) {
+			SDL_RenderCopy(renderer, img2, NULL, &score2);
+		}
+		if (count2 == 3) {
+			SDL_RenderCopy(renderer, img3, NULL, &score2);
+		}
+		if (count2 == 4) {
+			SDL_RenderCopy(renderer, img4, NULL, &score2);
+		}
+		if (count2 == 5) {
+			SDL_RenderCopy(renderer, img5, NULL, &score2);
+		}
+
 
 		SDL_RenderPresent(renderer);
 
