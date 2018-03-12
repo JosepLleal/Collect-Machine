@@ -51,6 +51,7 @@ int main(int argc, char* argv[]) {
 	SDL_Texture *ship2;
 	SDL_Texture *fuel;
 
+	SDL_Texture *img0;
 	SDL_Texture *img1;
 	SDL_Texture *img2;
 	SDL_Texture *img3;
@@ -61,17 +62,28 @@ int main(int argc, char* argv[]) {
 	SDL_Texture *img8;
 	SDL_Texture *img9;
 
+	SDL_Texture *img0red;
+	SDL_Texture *img1red;
+	SDL_Texture *img2red;
+	SDL_Texture *img3red;
+	SDL_Texture *img4red;
+	SDL_Texture *img5red;
+	SDL_Texture *img6red;
+	SDL_Texture *img7red;
+	SDL_Texture *img8red;
+	SDL_Texture *img9red;
+
 	SDL_Texture *win1;
 	SDL_Texture *win2;
 	
 
-	SDL_Window *window = SDL_CreateWindow("SideScroller Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_SHOWN);
+	SDL_Window *window = SDL_CreateWindow("Hommer vs Wiggum", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_SHOWN);
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 	//------------------------------------------------------------------------------------------------------------------------------
 	//backround
-	surface = IMG_Load("space.png");
+	surface = IMG_Load("clouds.jpg");
 	if (surface == NULL) {
 		isRunning = false;
 	}
@@ -80,7 +92,7 @@ int main(int argc, char* argv[]) {
 
 
 	//spaceship
-	surface = IMG_Load("spaceship.png");
+	surface = IMG_Load("homer.png");
 	if (surface == NULL) {
 		isRunning = false;
 	}
@@ -88,7 +100,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//spaceship2
-	surface = IMG_Load("ship2.png");
+	surface = IMG_Load("wiggum.png");
 	if (surface == NULL) {
 		isRunning = false;
 	}
@@ -96,7 +108,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//Fuel
-	surface = IMG_Load("fuel.png");
+	surface = IMG_Load("donut.png");
 	if (surface == NULL) {
 		isRunning = false;
 	}
@@ -104,6 +116,12 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//-------Loading scores ------------
+	//0
+	surface = IMG_Load("0.png");
+
+	img0 = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
 	//1
 	surface = IMG_Load("1.png");
 	
@@ -158,6 +176,68 @@ int main(int argc, char* argv[]) {
 	img9 = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
+	//----------red scores----------------
+
+	//0
+	surface = IMG_Load("0red.png");
+
+	img0red = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//1
+	surface = IMG_Load("1red.png");
+
+	img1red = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//2
+	surface = IMG_Load("2red.png");
+
+	img2red = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//3
+	surface = IMG_Load("3red.png");
+
+	img3red = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//4
+	surface = IMG_Load("4red.png");
+
+	img4red = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//5
+	surface = IMG_Load("5red.png");
+
+	img5red = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//6
+	surface = IMG_Load("6red.png");
+
+	img6red = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//7
+	surface = IMG_Load("7red.png");
+
+	img7red = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//8
+	surface = IMG_Load("8red.png");
+
+	img8red = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//9
+	surface = IMG_Load("9red.png");
+
+	img9red = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
 	//-----loading winner page--------
 
 	surface = IMG_Load("win1.png");
@@ -176,14 +256,14 @@ int main(int argc, char* argv[]) {
 	//Creating square
 	SDL_Rect rect;
 	rect.w = 120;
-	rect.h = 120;
+	rect.h = 150;
 	rect.x = 660;
 	rect.y = 510;
 
 	//second PLayer
 	SDL_Rect rect2;
 	rect2.w = 120;
-	rect2.h = 120;
+	rect2.h = 150;
 	rect2.x = 220;
 	rect2.y = 510;
 
@@ -324,7 +404,7 @@ int main(int argc, char* argv[]) {
 
 
 
-		//if key is pressed move the spaceship
+		//if key is pressed move 
 		if (up == true) {
 			rect.y -= 1;
 		}
@@ -360,6 +440,10 @@ int main(int argc, char* argv[]) {
 		if (space == true) {
 			count1 = 0; 
 			count2 = 0; 
+			rect2.x = 220;
+			rect2.y = 510;
+			rect.x = 660;
+			rect.y = 510;
 		}
 		
 		if (box.y <= 800) {
@@ -419,6 +503,9 @@ int main(int argc, char* argv[]) {
 		SDL_RenderCopy(renderer, fuel, NULL, &box);
 
 		//Score 1
+		if (count1 == 0) {
+			SDL_RenderCopy(renderer, img0, NULL, &score1);
+		}
 		if (count1 == 1) {
 			SDL_RenderCopy(renderer, img1, NULL, &score1);
 		}
@@ -451,33 +538,38 @@ int main(int argc, char* argv[]) {
 
 		//score2
 	
+		if (count2 == 0) {
+			SDL_RenderCopy(renderer, img0red, NULL, &score2);
+		}
 		if (count2 == 1) {
-			SDL_RenderCopy(renderer, img1, NULL, &score2);
+			SDL_RenderCopy(renderer, img1red, NULL, &score2);
 		}
 		if (count2 == 2) {
-			SDL_RenderCopy(renderer, img2, NULL, &score2);
+			SDL_RenderCopy(renderer, img2red, NULL, &score2);
 		}
 		if (count2 == 3) {
-			SDL_RenderCopy(renderer, img3, NULL, &score2);
+			SDL_RenderCopy(renderer, img3red, NULL, &score2);
 		}
 		if (count2 == 4) {
-			SDL_RenderCopy(renderer, img4, NULL, &score2);
+			SDL_RenderCopy(renderer, img4red, NULL, &score2);
 		}
 		if (count2 == 5) {
-			SDL_RenderCopy(renderer, img5, NULL, &score2);
+			SDL_RenderCopy(renderer, img5red, NULL, &score2);
 		}
 		if (count2 == 6) {
-			SDL_RenderCopy(renderer, img6, NULL, &score2);
+			SDL_RenderCopy(renderer, img6red, NULL, &score2);
 		}
 		if (count2 == 7) {
-			SDL_RenderCopy(renderer, img7, NULL, &score2);
+			SDL_RenderCopy(renderer, img7red, NULL, &score2);
 		}
 		if (count2 == 8) {
-			SDL_RenderCopy(renderer, img8, NULL, &score2);
+			SDL_RenderCopy(renderer, img8red, NULL, &score2);
 		}
 		if (count2 == 9) {
-			SDL_RenderCopy(renderer, img9, NULL, &score2);
+			SDL_RenderCopy(renderer, img9red, NULL, &score2);
 		}
+
+		//-------winner is-----------
 		if (count2 == 10) {
 			SDL_RenderCopy(renderer, win2, NULL, NULL);
 			SDL_Delay(50);
