@@ -8,14 +8,7 @@
 #pragma comment(lib, "SDL/libx86/SDL2main.lib")
 #pragma comment(lib, "SDL_Image/libx86/SDL2_image.lib")
 
-void createBullet(SDL_Rect* rect, SDL_Rect* bullet) {
-	bullet->w = 50;
-	bullet->h = 5;
-	bullet->x = rect->x + 100;
-	bullet->y = rect->y + 60;
 
-	
-}
 
 int main(int argc, char* argv[]) {
 		
@@ -25,18 +18,26 @@ int main(int argc, char* argv[]) {
 	SDL_Event event;
 	//bool for the loop
 	bool isRunning = true;
+
 	//Bools for keys
 	bool up = false;
 	bool down = false;
 	bool left = false;
 	bool right = false;
-	bool space = false;
+	
+	//bools for player 2
+	bool up2 = false;
+	bool down2 = false;
+	bool left2 = false;
+	bool right2 = false;
+	
 
 	SDL_Surface *surface;
 	//Creating textures
 	SDL_Texture *backround;
 	SDL_Texture *ship;
-	SDL_Texture *projectile;
+	SDL_Texture *ship2;
+	
 
 	SDL_Window *window = SDL_CreateWindow("SideScroller Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_SHOWN);
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -60,29 +61,36 @@ int main(int argc, char* argv[]) {
 	ship = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
-
-	//bullet
-	surface = IMG_Load("projectile.png");
+	//spaceship2
+	surface = IMG_Load("ship2.png");
 	if (surface == NULL) {
 		isRunning = false;
 	}
-	projectile = SDL_CreateTextureFromSurface(renderer, surface);
+	ship = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
+
+	
+
 	//------------------------------------------------------------------------------------------------------------------------------------
-	const int allBullets = 30;
-	int bullets[allBullets];
-	int counterB = 0;
+	
 
 	//Creating square
 	SDL_Rect rect;
 	rect.w = 120;
 	rect.h = 120;
-	rect.x = 440;
-	rect.y = 340;
+	rect.x = 660;
+	rect.y = 510;
+
+	//second PLayer
+	SDL_Rect rect2;
+	rect2.w = 120;
+	rect2.h = 120;
+	rect2.x = 220;
+	rect2.y = 170;
+
 	
-	//Creating bullet
-	SDL_Rect bullet[allBullets];
+	
 	
 	//Starting loop
 	while (isRunning) {
@@ -114,15 +122,26 @@ int main(int argc, char* argv[]) {
 				{
 					right = true;
 				}
-				if (event.key.keysym.sym == SDLK_SPACE)
+
+				//player2
+				if (event.key.keysym.sym == SDLK_w)
 				{
-					bullets[counterB] = 1;
-					createBullet(&rect, &bullet[counterB]);
-					counterB++;
-					if (counterB >= allBullets) {
-						counterB = 0;
-					}
+					up2 = true;
+
 				}
+				if (event.key.keysym.sym == SDLK_s)
+				{
+					down2 = true;
+				}
+				if (event.key.keysym.sym == SDLK_a)
+				{
+					left2 = true;
+				}
+				if (event.key.keysym.sym == SDLK_d)
+				{
+					right2 = true;
+				}
+				
 				
 				
 			}
@@ -146,23 +165,29 @@ int main(int argc, char* argv[]) {
 				{
 					right = false;
 				}
+				//player2
+
+				if (event.key.keysym.sym == SDLK_w)
+				{
+					up2 = false;
+				}
+				if (event.key.keysym.sym == SDLK_s)
+				{
+					down2 = false;
+				}
+				if (event.key.keysym.sym == SDLK_a)
+				{
+					left2 = false;
+				}
+				if (event.key.keysym.sym == SDLK_d)
+				{
+					right2 = false;
+				}
 				
 			}
 		}
 
-		for (int j = 0; j <= allBullets; j++)
-		{
-			if (bullet[j].x >= 1000)
-			{
-				bullets[j] = 0;
-			}
-
-			if (bullets[j] == 1)
-			{
-				++bullet[j].x;
-				SDL_RenderCopy(renderer, projectile, NULL, &bullet[j]);			
-			}
-		}
+		
 
 		//if key is pressed move the spaceship
 		if (up == true){
@@ -179,6 +204,22 @@ int main(int argc, char* argv[]) {
 
 		if (right == true){
 			rect.x += 1;
+		}
+
+		if (up2 == true) {
+			rect2.y -= 1;
+		}
+
+		if (down2 == true) {
+			rect2.y += 1;
+		}
+
+		if (left2 == true) {
+			rect2.x -= 1;
+		}
+
+		if (right2 == true) {
+			rect2.x += 1;
 		}
 	
 
@@ -198,22 +239,26 @@ int main(int argc, char* argv[]) {
 			rect.y = 800 - rect.h;
 		}
 
+		//limints player 2
 
+		if (rect2.x < 0) {
+			rect2.x = 0;
+		}
+		else if (rect2.x > 1000 - rect2.w) {
+			rect2.x = 1000 - rect2.w;
+		}
+		if (rect2.y < 0) {
+			rect2.y = 0;
+		}
+		else if (rect2.y > 800 - rect2.h) {
+			rect2.y = 800 - rect2.h;
+		}
 
-		
-		//SDL_SetRenderDrawColor(renderer, 0, 150, 255, 255);
-		//SDL_RenderClear(renderer);
 
 		SDL_RenderCopy(renderer, backround, NULL, NULL);
 		SDL_RenderCopy(renderer, ship, NULL, &rect);
-		for (int i = 0; i <= allBullets; i++) {
-			SDL_RenderCopy(renderer, projectile, NULL, &bullet[i]);
-		}
+		SDL_RenderCopy(renderer, ship2, NULL, &rect2);
 		
-		
-
-		//SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-		//SDL_RenderFillRect(renderer, &bullet);
 
 		SDL_RenderPresent(renderer);
 
