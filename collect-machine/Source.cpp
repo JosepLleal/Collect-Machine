@@ -56,6 +56,10 @@ int main(int argc, char* argv[]) {
 	SDL_Texture *img3;
 	SDL_Texture *img4;
 	SDL_Texture *img5;
+	SDL_Texture *img6;
+	SDL_Texture *img7;
+	SDL_Texture *img8;
+	SDL_Texture *img9;
 
 	SDL_Texture *win1;
 	SDL_Texture *win2;
@@ -130,6 +134,30 @@ int main(int argc, char* argv[]) {
 	img5 = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
+	//6
+	surface = IMG_Load("6.png");
+
+	img6 = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//7
+	surface = IMG_Load("7.png");
+
+	img7 = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//8
+	surface = IMG_Load("8.png");
+
+	img8 = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	//9
+	surface = IMG_Load("9.png");
+
+	img9 = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
 	//-----loading winner page--------
 
 	surface = IMG_Load("win1.png");
@@ -157,7 +185,7 @@ int main(int argc, char* argv[]) {
 	rect2.w = 120;
 	rect2.h = 120;
 	rect2.x = 220;
-	rect2.y = 170;
+	rect2.y = 510;
 
 	//creating boxes
 	SDL_Rect box;
@@ -406,6 +434,19 @@ int main(int argc, char* argv[]) {
 		if (count1 == 5) {
 			SDL_RenderCopy(renderer, img5, NULL, &score1);
 		}
+		if (count1 == 6) {
+			SDL_RenderCopy(renderer, img6, NULL, &score1);
+		}
+		if (count1 == 7) {
+			SDL_RenderCopy(renderer, img7, NULL, &score1);
+		}
+		if (count1 == 8) {
+			SDL_RenderCopy(renderer, img8, NULL, &score1);
+		}
+		if (count1 == 9) {
+			SDL_RenderCopy(renderer, img9, NULL, &score1);
+		}
+		
 		
 
 		//score2
@@ -425,11 +466,25 @@ int main(int argc, char* argv[]) {
 		if (count2 == 5) {
 			SDL_RenderCopy(renderer, img5, NULL, &score2);
 		}
-		if (count1 == 6) {
-			SDL_RenderCopy(renderer, win1, NULL, NULL);
-		}
 		if (count2 == 6) {
+			SDL_RenderCopy(renderer, img6, NULL, &score2);
+		}
+		if (count2 == 7) {
+			SDL_RenderCopy(renderer, img7, NULL, &score2);
+		}
+		if (count2 == 8) {
+			SDL_RenderCopy(renderer, img8, NULL, &score2);
+		}
+		if (count2 == 9) {
+			SDL_RenderCopy(renderer, img9, NULL, &score2);
+		}
+		if (count2 == 10) {
 			SDL_RenderCopy(renderer, win2, NULL, NULL);
+			SDL_Delay(50);
+		}
+		if (count1 == 10) {
+			SDL_RenderCopy(renderer, win1, NULL, NULL);
+			SDL_Delay(50);
 		}
 
 
