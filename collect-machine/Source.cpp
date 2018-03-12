@@ -54,15 +54,15 @@ int main(int argc, char* argv[]) {
 
 
 	//spaceship
-	surface = IMG_Load("spaceship.png");
+	surface = IMG_Load("ship2.png");
 	if (surface == NULL) {
 		isRunning = false;
 	}
-	ship = SDL_CreateTextureFromSurface(renderer, surface);
+	ship2 = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
 	//spaceship2
-	surface = IMG_Load("ship2.png");
+	surface = IMG_Load("spaceship.png");
 	if (surface == NULL) {
 		isRunning = false;
 	}
