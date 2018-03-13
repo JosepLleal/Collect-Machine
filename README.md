@@ -1,7 +1,8 @@
 # Hommer vs Wiggum
 Future best game of 2018
 
-##Members;
+##Members:
+
 Josep Lleal
    - Role: Management
    - [Josep's GitHub Link](https://github.com/JosepLleal)
