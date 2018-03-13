@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 	
 	srand(time(NULL));
 	
-	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO);
 
 	SDL_Event event;
 	//bool for the loop
@@ -76,6 +76,17 @@ int main(int argc, char* argv[]) {
 	SDL_Texture *win1;
 	SDL_Texture *win2;
 	
+	Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+
+	Mix_Chunk* sound;
+	sound = Mix_LoadWAV("collect.wav");
+	Mix_Chunk* homer;
+	homer = Mix_LoadWAV("champion.wav");
+	Mix_Chunk* clancy;
+	clancy = Mix_LoadWAV("messiah.wav");
+
+	Mix_Music *music;
+	music = Mix_LoadMUS("simpsons.ogg");
 
 	SDL_Window *window = SDL_CreateWindow("Hommer vs Wiggum", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_SHOWN);
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -294,7 +305,8 @@ int main(int argc, char* argv[]) {
 	winner.x = 0;
 	winner.y = 0;
 	
-
+	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+	Mix_PlayMusic(music, -1);
 
 	//Starting loop
 	while (isRunning) {
@@ -303,7 +315,6 @@ int main(int argc, char* argv[]) {
 			if (event.type == SDL_QUIT) {
 				isRunning = false;
 			}
-
 
 			//if the key is pressed
 			else if (event.type == SDL_KEYDOWN)
@@ -444,6 +455,9 @@ int main(int argc, char* argv[]) {
 			rect2.y = 510;
 			rect.x = 660;
 			rect.y = 510;
+			Mix_Pause(-1);
+			Mix_RewindMusic();
+			Mix_ResumeMusic();
 		}
 		
 		if (box.y <= 800) {
@@ -459,12 +473,16 @@ int main(int argc, char* argv[]) {
 			box.y = 0;
 			box.x = rand() % (1000 - box.h);
 			count1++;
+			if (count1 < 10) Mix_PlayChannel(-1, sound, 0);
+			else if (count1 == 10) Mix_PlayChannel(-1, clancy, 0);
 		}
 
 		if (box.x >= rect2.x && box.x < (rect2.x + rect2.w) && box.y > rect2.y && box.y < (rect2.y + rect2.h)) {
 			box.y = 0;
 			box.x = rand() % (1000 - box.h);
 			count2++;
+			if (count2 < 10) Mix_PlayChannel(-1, sound, 0);
+			else if (count2 == 10) Mix_PlayChannel(-1, homer, 0);
 		}
 		
 		//limits of movement
@@ -573,10 +591,12 @@ int main(int argc, char* argv[]) {
 		if (count2 == 10) {
 			SDL_RenderCopy(renderer, win2, NULL, NULL);
 			SDL_Delay(50);
+			Mix_PauseMusic();
 		}
 		if (count1 == 10) {
 			SDL_RenderCopy(renderer, win1, NULL, NULL);
 			SDL_Delay(50);
+			Mix_PauseMusic();
 		}
 
 
@@ -586,8 +606,10 @@ int main(int argc, char* argv[]) {
 
 	}
 
+	Mix_FreeMusic(music);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
+	Mix_CloseAudio();
 	IMG_Quit();
 	SDL_Quit();
 	
