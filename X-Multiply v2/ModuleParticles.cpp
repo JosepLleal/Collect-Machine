@@ -25,6 +25,16 @@ ModuleParticles::ModuleParticles()
 	explosion_enemy.anim.loop = false;
 	explosion_enemy.anim.speed = 0.3f;
 
+	enemy_shot.anim.PushBack({ 253, 9, 10, 10 });
+	enemy_shot.anim.PushBack({ 271, 10, 10, 10 });
+	enemy_shot.anim.PushBack({ 254, 25, 10, 10 });
+	enemy_shot.anim.PushBack({ 271, 25, 10, 10 });
+	enemy_shot.anim.speed = 0.1f;
+	enemy_shot.anim.loop = true;
+	enemy_shot.speed.x = -2;
+	enemy_shot.speed.y = 1;
+	enemy_shot.life = 4000;
+
 	player_death.anim.PushBack({ 112, 144, 16, 16 });
 	player_death.anim.PushBack({ 96, 144, 16, 16 });
 	player_death.anim.PushBack({ 80, 144, 16, 16 });

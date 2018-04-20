@@ -49,10 +49,13 @@ private:
 	Particle* active[MAX_ACTIVE_PARTICLES];
 
 public:
-
-	Particle explosion_enemy;
+	//player particles
 	Particle shot;
 	Particle player_death;
+
+	//enemy particles
+	Particle enemy_shot;
+	Particle explosion_enemy;
 };
 
 #endif // __MODULEPARTICLES_H__

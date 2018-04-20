@@ -2,14 +2,14 @@
 #define __ModuleEnemies_H__
 
 #include "Module.h"
-#include "Enemy_RedBird.h"
+#include "Enemy_Shrimp.h"
 
 #define MAX_ENEMIES 100
 
 enum ENEMY_TYPES
 {
 	NO_TYPE,
-	REDBIRD,
+	SHRIMP,
 	BROWNSHIP,
 	MECH,
 };

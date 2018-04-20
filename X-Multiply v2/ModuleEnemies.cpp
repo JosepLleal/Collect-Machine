@@ -5,7 +5,7 @@
 #include "ModuleParticles.h"
 #include "ModuleTextures.h"
 #include "Enemy.h"
-#include "Enemy_RedBird.h"
+#include "Enemy_Shrimp.h"
 #include "Enemy_BrownShip.h"
 #include "Enemy_Mech.h"
 #include "ModuleAudio.h"
@@ -26,7 +26,7 @@ ModuleEnemies::~ModuleEnemies()
 bool ModuleEnemies::Start()
 {
 	//enemies sprites
-	sprites = App->textures->Load("rtype/enemies.png");
+	sprites = App->textures->Load("image/LV1_Shrimp.png");
 
 	//Loading FX
 	enemy_death = App->audio->LoadFX("Sound/xmultipl-100.wav");
@@ -133,8 +133,8 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 	{
 		switch(info.type)
 		{
-			case ENEMY_TYPES::REDBIRD:
-			enemies[i] = new Enemy_RedBird(info.x,info.y);
+			case ENEMY_TYPES::SHRIMP:
+			enemies[i] = new Enemy_Shrimp(info.x,info.y);
 			break;
 			case ENEMY_TYPES::BROWNSHIP:
 			enemies[i] = new Enemy_BrownShip(info.x, info.y);
