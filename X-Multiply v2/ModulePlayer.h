@@ -31,6 +31,10 @@ public:
 	Animation downward;
 	iPoint position;
 	Collider* playerHitbox;
+
+	uint shot; //fx shot sound
+	uint death; //fx when player dies
+
 	bool destroyed = false;
 };
 

@@ -7,6 +7,7 @@
 #include "ModuleParticles.h"
 #include "ModuleEnemies.h"
 #include "ModuleLevel1.h"
+#include "ModuleAudio.h"
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -36,6 +37,8 @@ bool ModuleLevel1::Start()
 	background = App->textures->Load("image/background completed.png");
 	tilemap1 = App->textures->Load("image/LV1_TilemapCompleted.png");
 	hud = App->textures->Load("image/xmultiply_hud.png");
+
+	App->audio->MusicPlay("Sound/04_Into_the_Human_Body_Stage_1_.ogg", 0.5f);
 
 	App->player->Enable();
 	App->particles->Enable();

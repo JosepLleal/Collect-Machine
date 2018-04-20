@@ -8,6 +8,7 @@
 #include "ModuleFadeToBlack.h"
 #include "ModuleFonts.h"
 #include "ModulePlayer.h"
+#include "ModuleAudio.h"
 
 #include<stdio.h>
 
@@ -40,6 +41,9 @@ bool ModulePlayer::Start()
 
 	graphics = App->textures->Load("Image/Main_Character_Effects.png");
 
+	shot = App->audio->LoadFX("Sound/xmultipl-122.wav"); //Loading FX of shot
+	death = App->audio->LoadFX("Sound/xmultipl-044.wav"); //Loading FX when player dies
+
 	destroyed = false;
 	position.x = 150;
 	position.y = 120;
@@ -61,6 +65,11 @@ bool ModulePlayer::CleanUp()
 
 	App->textures->Unload(graphics);
 	App->fonts->UnLoad(font_score);
+
+	//Unloading FX
+	App->audio->UnloadFX(shot);
+	App->audio->UnloadFX(death);
+
 	if(playerHitbox)
 		playerHitbox->to_delete = true;
 
@@ -107,6 +116,7 @@ update_status ModulePlayer::Update()
 	if(App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN)
 	{
 		App->particles->AddParticle(App->particles->shot, position.x + 28, position.y + 6, COLLIDER_PLAYER_SHOT);
+		App->audio->ChunkPlay(shot);
 		
 	}
 
@@ -133,8 +143,9 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
 	if(c1 == playerHitbox && destroyed == false && App->fade->IsFading() == false)
 	{
-		App->fade->FadeToBlack((Module*)App->lvl1, (Module*)App->menu);
 		App->particles->AddParticle(App->particles->player_death, position.x, position.y, COLLIDER_NONE);
+		App->audio->ChunkPlay(death);
+		App->fade->FadeToBlack((Module*)App->lvl1, (Module*)App->menu, 2.0f);
 		
 
 		destroyed = true;

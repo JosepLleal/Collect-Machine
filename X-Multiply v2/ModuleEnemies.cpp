@@ -8,6 +8,7 @@
 #include "Enemy_RedBird.h"
 #include "Enemy_BrownShip.h"
 #include "Enemy_Mech.h"
+#include "ModuleAudio.h"
 
 #define SPAWN_MARGIN 50
 
@@ -24,8 +25,11 @@ ModuleEnemies::~ModuleEnemies()
 
 bool ModuleEnemies::Start()
 {
-	// Create a prototype for each enemy available so we can copy them around
+	//enemies sprites
 	sprites = App->textures->Load("rtype/enemies.png");
+
+	//Loading FX
+	enemy_death = App->audio->LoadFX("Sound/xmultipl-100.wav");
 
 	return true;
 }
@@ -84,6 +88,8 @@ bool ModuleEnemies::CleanUp()
 	LOG("Freeing all enemies");
 
 	App->textures->Unload(sprites);
+
+	App->audio->UnloadFX(enemy_death);
 
 	for(uint i = 0; i < MAX_ENEMIES; ++i)
 	{
@@ -146,6 +152,7 @@ void ModuleEnemies::OnCollision(Collider* c1, Collider* c2)
 		if(enemies[i] != nullptr && enemies[i]->GetCollider() == c1)
 		{
 			App->particles->AddParticle(App->particles->explosion_enemy, enemies[i]->position.x, enemies[i]->position.y);
+			App->audio->ChunkPlay(enemy_death);
 			delete enemies[i];
 			enemies[i] = nullptr;
 			break;

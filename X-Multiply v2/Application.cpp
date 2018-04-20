@@ -11,6 +11,7 @@
 #include "ModuleParticles.h"
 #include "ModuleEnemies.h"
 #include "ModuleFonts.h"
+#include "ModuleAudio.h"
 
 Application::Application()
 {
@@ -19,6 +20,7 @@ Application::Application()
 	modules[i++] = render = new ModuleRender();
 	modules[i++] = input = new ModuleInput();
 	modules[i++] = textures = new ModuleTextures();
+	modules[i++] = audio = new ModuleAudio();
 	modules[i++] = fonts = new ModuleFonts();
 	modules[i++] = menu = new ModuleMenu();
 	modules[i++] = lvl1 = new ModuleLevel1();
@@ -39,7 +41,7 @@ bool Application::Init()
 {
 	bool ret = true;
 
-	// Deactivate modules here ----
+	// Desactivate modules here ----
 	lvl1->Disable();
 	player->Disable();
 	collision->Disable();

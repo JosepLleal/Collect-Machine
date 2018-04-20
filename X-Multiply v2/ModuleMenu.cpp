@@ -5,6 +5,7 @@
 #include "ModuleRender.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleMenu.h"
+#include "ModuleAudio.h"
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -20,6 +21,7 @@ bool  ModuleMenu::Start()
 	LOG("Loading space intro");
 	
 	background = App->textures->Load("image/main_menu.png");
+	App->audio->MusicPlay("Sound/01_X-Multiply_Title_.ogg", 1.5f);
 
 	App->render->camera.x = App->render->camera.y = 0;
 	
