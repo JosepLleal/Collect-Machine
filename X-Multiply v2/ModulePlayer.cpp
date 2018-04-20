@@ -85,17 +85,17 @@ update_status ModulePlayer::Update()
 
 	int speed = 1;
 
-	if(App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT)
+	if(App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_STATE::KEY_REPEAT)
 	{
 		position.x -= speed * 2;
 	}
 
-	if(App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT)
+	if(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_REPEAT)
 	{
 		position.x += speed;
 	}
 
-	if(App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
+	if(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_STATE::KEY_REPEAT)
 	{
 		position.y += speed;
 		if(current_animation != &downward)
@@ -105,7 +105,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if(App->input->keyboard[SDL_SCANCODE_W] == KEY_STATE::KEY_REPEAT)
+	if(App->input->keyboard[SDL_SCANCODE_UP] == KEY_STATE::KEY_REPEAT)
 	{
 		position.y -= speed;
 		if(current_animation != &upward)
@@ -122,9 +122,31 @@ update_status ModulePlayer::Update()
 		
 	}
 
-	if(App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_IDLE
-	   && App->input->keyboard[SDL_SCANCODE_W] == KEY_STATE::KEY_IDLE)
+	if(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_STATE::KEY_IDLE
+	   && App->input->keyboard[SDL_SCANCODE_UP] == KEY_STATE::KEY_IDLE)
 		current_animation = &idle;
+
+	// Prevent Player from leaving bordrer -------------------------------------
+	//x lim
+	if (position.x <= abs(App->render->camera.x) / SCREEN_SIZE)
+	{
+		position.x = 1 + (abs(App->render->camera.x) / SCREEN_SIZE);
+	}
+	else if (position.x >= ((abs(App->render->camera.x) / SCREEN_SIZE + SCREEN_WIDTH - 38)))
+	{
+		position.x = -1 + ((abs(App->render->camera.x) / SCREEN_SIZE + SCREEN_WIDTH - 38));
+	}
+
+	//y lim
+
+	if (position.y <= abs(App->render->camera.y) / SCREEN_SIZE)
+	{
+		position.y = 1 + abs(App->render->camera.y) / SCREEN_SIZE;
+	}
+	else if (position.y >= (abs(App->render->camera.y) / SCREEN_SIZE) + SCREEN_HEIGHT - 45) 
+	{
+		position.y = -1 + (abs(App->render->camera.y) / SCREEN_SIZE) + SCREEN_HEIGHT - 45;
+	}
 
 	//GOD MODE FUNCTION ---------------------------------------------------------------------------------------------------
 	if (App->input->keyboard[SDL_SCANCODE_F5] == KEY_DOWN)
@@ -152,7 +174,7 @@ update_status ModulePlayer::Update()
 	// Draw everything --------------------------------------
 	if(destroyed == false)
 		App->render->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()), true);
-
+	
 	// Draw UI (score) --------------------------------------
 	sprintf_s(score_text, 10, "%7d", score);
 
