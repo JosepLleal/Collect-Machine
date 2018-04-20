@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Enemy_Shrimp.h"
+#include "ModuleTextures.h"
 
 #define MAX_ENEMIES 100
 
@@ -10,8 +11,7 @@ enum ENEMY_TYPES
 {
 	NO_TYPE,
 	SHRIMP,
-	BROWNSHIP,
-	MECH,
+	
 };
 
 class Enemy;

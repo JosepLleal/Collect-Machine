@@ -58,8 +58,8 @@ update_status ModuleEnemies::Update()
 	for(uint i = 0; i < MAX_ENEMIES; ++i)
 		if(enemies[i] != nullptr) enemies[i]->Move();
 
-	for(uint i = 0; i < MAX_ENEMIES; ++i)
-		if(enemies[i] != nullptr) enemies[i]->Draw(sprites);
+	for (uint i = 0; i < MAX_ENEMIES; ++i)
+		if (enemies[i] != nullptr) enemies[i]->Draw(sprites);
 
 	return UPDATE_CONTINUE;
 }
@@ -88,7 +88,6 @@ bool ModuleEnemies::CleanUp()
 	LOG("Freeing all enemies");
 
 	App->textures->Unload(sprites);
-
 	App->audio->UnloadFX(enemy_death);
 
 	for(uint i = 0; i < MAX_ENEMIES; ++i)
@@ -135,12 +134,6 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 		{
 			case ENEMY_TYPES::SHRIMP:
 			enemies[i] = new Enemy_Shrimp(info.x,info.y);
-			break;
-			case ENEMY_TYPES::BROWNSHIP:
-			enemies[i] = new Enemy_BrownShip(info.x, info.y);
-			break;
-			case ENEMY_TYPES::MECH:
-			enemies[i] = new Enemy_Mech(info.x, info.y);
 			break;
 		}
 	}

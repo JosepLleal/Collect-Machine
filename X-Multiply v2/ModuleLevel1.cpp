@@ -155,7 +155,7 @@ bool ModuleLevel1::Start()
 	App->enemies->AddEnemy(ENEMY_TYPES::SHRIMP, 640, 80);
 	App->enemies->AddEnemy(ENEMY_TYPES::SHRIMP, 665, 80);
 	
-	App->enemies->AddEnemy(ENEMY_TYPES::SHRIMP, 735, 120);
+	/*App->enemies->AddEnemy(ENEMY_TYPES::SHRIMP, 735, 120);
 	App->enemies->AddEnemy(ENEMY_TYPES::SHRIMP, 750, 120);
 	App->enemies->AddEnemy(ENEMY_TYPES::SHRIMP, 775, 120);
 	App->enemies->AddEnemy(ENEMY_TYPES::SHRIMP, 790, 120);
@@ -165,7 +165,7 @@ bool ModuleLevel1::Start()
 	App->enemies->AddEnemy(ENEMY_TYPES::BROWNSHIP, 870, 100);
 	App->enemies->AddEnemy(ENEMY_TYPES::BROWNSHIP, 890, 100);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::MECH, 900, 195);
+	App->enemies->AddEnemy(ENEMY_TYPES::MECH, 900, 195);*/
 	
 	return true;
 }

@@ -3,6 +3,7 @@
 
 #include "p2Point.h"
 #include "Animation.h"
+#include "Path.h"
 
 struct SDL_Texture;
 struct Collider;
@@ -10,8 +11,8 @@ struct Collider;
 class Enemy
 {
 protected:
-	Animation* animation;
-	Collider* collider;
+	Animation* animation= nullptr;
+	Collider* collider = nullptr;
 
 public:
 	iPoint position;

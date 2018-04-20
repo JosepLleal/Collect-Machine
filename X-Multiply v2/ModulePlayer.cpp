@@ -45,6 +45,8 @@ bool ModulePlayer::Start()
 	death = App->audio->LoadFX("Sound/xmultipl-044.wav"); //Loading FX when player dies
 
 	destroyed = false;
+	godmode = false;
+
 	position.x = 150;
 	position.y = 120;
 	score = 0;
@@ -70,8 +72,8 @@ bool ModulePlayer::CleanUp()
 	App->audio->UnloadFX(shot);
 	App->audio->UnloadFX(death);
 
-	if(playerHitbox)
-		playerHitbox->to_delete = true;
+	/*if(playerHitbox)
+		playerHitbox->to_delete = true;*/
 
 	return true;
 }
@@ -124,11 +126,32 @@ update_status ModulePlayer::Update()
 	   && App->input->keyboard[SDL_SCANCODE_W] == KEY_STATE::KEY_IDLE)
 		current_animation = &idle;
 
-	playerHitbox->SetPos(position.x, position.y);
+	//GOD MODE FUNCTION ---------------------------------------------------------------------------------------------------
+	if (App->input->keyboard[SDL_SCANCODE_F5] == KEY_DOWN)
+	{
+		godmode = !godmode;
+
+		if (godmode == true)
+		{
+			LOG("GodMode on");
+			playerHitbox->to_delete = true;
+			playerHitbox = nullptr;
+		}
+		else if (godmode == false)
+		{
+			LOG("GodMode off");
+			playerHitbox = App->collision->AddCollider({ position.x, position.y, 36, 16 }, COLLIDER_PLAYER, this);
+		}
+	}
+
+
+	//-----------------------------------------------------------------------------------------------------------------------
+	if(godmode == false)
+		playerHitbox->SetPos(position.x, position.y);
 
 	// Draw everything --------------------------------------
 	if(destroyed == false)
-		App->render->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
+		App->render->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()), true);
 
 	// Draw UI (score) --------------------------------------
 	sprintf_s(score_text, 10, "%7d", score);
@@ -145,6 +168,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	{
 		App->particles->AddParticle(App->particles->player_death, position.x, position.y, COLLIDER_NONE);
 		App->audio->ChunkPlay(death);
+		playerHitbox->to_delete = true;
 		App->fade->FadeToBlack((Module*)App->lvl1, (Module*)App->menu, 2.0f);
 		
 
